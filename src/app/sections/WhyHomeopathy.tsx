@@ -31,7 +31,7 @@ export default function WhyHomeopathy({ scrollTo }: { scrollTo: (id: string) => 
           <motion.div {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.2 }} className="grid grid-cols-2 gap-4">
             {[
               { num: '15+', label: 'Years Experience', color: '#1B3A6B' },
-              { num: '10K+', label: 'Patients Treated', color: '#C62828' },
+              { num: '50K+', label: 'Patients Treated', color: '#C62828' },
               { num: '945', label: 'Google Reviews', color: '#4A7CC9' },
               { num: '4', label: 'Clinic Locations', color: '#1A1A2E' }
             ].map((stat, i) => (

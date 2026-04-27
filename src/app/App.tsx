@@ -115,7 +115,7 @@ function MainLayout() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <MainLayout />
     </BrowserRouter>
   );

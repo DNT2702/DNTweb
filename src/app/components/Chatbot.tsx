@@ -11,11 +11,11 @@ type Message = {
 const predefinedQnA = [
   {
     q: "Is homeopathic treatment safe?",
-    a: "Yes, our treatments are 100% natural, non-toxic, and free of side effects, making them completely safe for all ages."
+    a: "Yes, our treatments are 100% natural, non-toxic, and free of side effects, making them completely safe for people of all ages including infants and the elderly."
   },
   {
     q: "Do you treat chronic conditions?",
-    a: "Absolutely. We specialize in long-term cure for chronic conditions like Asthma, Eczema, Migraines, and Thyroid disorders by addressing the root cause."
+    a: "Absolutely. We specialize in long-term cure for chronic conditions like Asthma, Eczema, Migraines, Thyroid disorders, PCOD, and Arthritis by addressing the root cause."
   },
   {
     q: "How long does treatment take?",
@@ -23,7 +23,55 @@ const predefinedQnA = [
   },
   {
     q: "How to book an appointment?",
-    a: "You can click the 'Book Now' button at the bottom right, or use the form on our Contact page to schedule an appointment."
+    a: "You can click the 'Book Now' button at the bottom right, or use the form on our Contact page, or WhatsApp us at +91 72071 15599."
+  },
+  {
+    q: "What are the clinic timings?",
+    a: "Our clinics are open Monday to Saturday, 9:00 AM – 1:00 PM and 5:00 PM – 8:30 PM. Sunday by appointment only."
+  },
+  {
+    q: "Where are your clinics located?",
+    a: "We have 4 clinic locations across Andhra Pradesh — Visakhapatnam, Vizianagaram, Vijayawada, and Vissannapeta. Click 'Get Directions' on our page for exact maps."
+  },
+  {
+    q: "What is the consultation fee?",
+    a: "Consultation fees are affordable and vary by clinic location. Please contact us via WhatsApp (+91 72071 15599) or call us for current fee details."
+  },
+  {
+    q: "Is homeopathy safe for children?",
+    a: "Yes! Homeopathy is especially gentle and effective for children. We treat conditions like recurrent colds, allergies, bedwetting, behavioural issues, and growth disorders in kids."
+  },
+  {
+    q: "Can I take homeopathy with other medicines?",
+    a: "Yes, homeopathic medicines are generally safe to take alongside conventional medicines. However, please inform Dr. Arun about all current medications during your consultation."
+  },
+  {
+    q: "Do you offer online consultations?",
+    a: "Yes, we offer online consultations for patients who cannot visit in person. You can book an online appointment via WhatsApp at +91 72071 15599."
+  },
+  {
+    q: "What conditions do you treat?",
+    a: "We treat a wide range of conditions including Skin disorders (Psoriasis, Eczema), Respiratory (Asthma, Sinusitis), Hormonal (Thyroid, PCOD), Joint pain, Hair loss, Digestive issues, Migraines, Allergies, and much more."
+  },
+  {
+    q: "Is homeopathy effective for skin diseases?",
+    a: "Yes, homeopathy is highly effective for skin conditions like Psoriasis, Eczema, Acne, Vitiligo, and Urticaria. It treats from the root cause, providing lasting relief without harmful side effects."
+  },
+  {
+    q: "Can pregnant women take homeopathic treatment?",
+    a: "Homeopathy is very safe during pregnancy. It can help manage morning sickness, hormonal imbalances, anxiety, and other pregnancy-related concerns without any risk to mother or baby."
+  },
+  {
+    q: "Do you treat hair loss?",
+    a: "Yes, we have excellent results treating hair fall, alopecia, and dandruff through homeopathy by correcting the underlying hormonal or nutritional causes."
+  },
+  {
+    q: "How is homeopathy different from allopathy?",
+    a: "Homeopathy treats the whole person — mind, body, and emotions — rather than just suppressing symptoms. It uses highly diluted natural substances to stimulate the body's own healing powers, with no side effects."
+  },
+  {
+    q: "Do I need to follow a special diet?",
+    a: "Some minor dietary guidelines may be advised (e.g., avoiding strong coffee or mint close to medicine times), but generally homeopathy doesn't require major dietary restrictions."
   }
 ];
 

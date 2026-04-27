@@ -13,7 +13,7 @@ const milestones = [
   { year: '2013', title: 'Expanded Services', desc: 'Introduced specialized pediatric and dermatology departments.' },
   { year: '2018', title: '5,000+ Patients', desc: 'Milestone of treating over 5,000 patients successfully.' },
   { year: '2022', title: '4 Locations', desc: 'Grew to 4 clinic locations across Visakhapatnam.' },
-  { year: '2024', title: '10,000+ Patients', desc: 'Crossed 10,000 patients with 945+ Google reviews.' },
+  { year: '2024', title: '50,000+ Patients', desc: 'Crossed 50,000 patients with 945+ Google reviews.' },
 ];
 
 const values = [
@@ -72,7 +72,7 @@ export default function AboutPage() {
                 The field of homeopathy goes beyond standard medicine by focusing on natural remedies that work in harmony with your body. Dr. Arun Homeopathy is committed to providing high-quality, cost-effective care, ensuring that every patient receives personalized attention and the best treatment options available.
               </p>
               <p className="text-[#5A6077] leading-relaxed mb-8">
-                Founded in 2009, our clinic has grown from a single-room practice to a network of 4 locations across Visakhapatnam, treating over 10,000+ patients with a 4.9-star Google rating. We believe in treating the root cause, not just the symptoms.
+                Founded in 2009, our clinic has grown from a single-room practice to a network of 4 locations across Visakhapatnam, treating over 50,000+ patients with a 4.9-star Google rating. We believe in treating the root cause, not just the symptoms.
               </p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center gap-4 bg-[#F0F4FA] rounded-xl p-4">
@@ -195,7 +195,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { icon: Award, num: '15+', label: 'Years Experience' },
-              { icon: Users, num: '10,000+', label: 'Patients Treated' },
+              { icon: Users, num: '50,000+', label: 'Patients Treated' },
               { icon: Building2, num: '4', label: 'Clinic Locations' },
               { icon: CheckCircle, num: '945+', label: 'Google Reviews' },
             ].map((s, i) => (

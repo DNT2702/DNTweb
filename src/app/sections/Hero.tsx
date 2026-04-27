@@ -24,7 +24,7 @@ export default function Hero({ scrollTo, openBookingModal }: { scrollTo: (id: st
               <span className="text-[#1B3A6B]">To Wellness</span>
             </h1>
             <p className="text-lg text-[#5A6077] mb-8 max-w-lg leading-relaxed">
-              Safe, natural & personalized homeopathic treatment in Visakhapatnam. Experience the power of holistic healing with Dr. Arun.
+              Safe, natural & personalized homeopathic treatment in Visakhapatnam. Experience the power of holistic healing with Dr. Arun Homeopathy Clinic.
             </p>
 
             <div className="flex flex-wrap gap-4 mb-10">
@@ -53,7 +53,7 @@ export default function Hero({ scrollTo, openBookingModal }: { scrollTo: (id: st
                   <Users className="w-6 h-6 text-[#C62828]" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-[#1A1A2E]">10,000+</div>
+                  <div className="text-2xl font-bold text-[#1A1A2E]">50,000+</div>
                   <div className="text-sm text-[#5A6077]">Patients Treated</div>
                 </div>
               </div>
