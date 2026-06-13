@@ -58,7 +58,7 @@ export default function TestimonialsPage({ openBookingModal }: { openBookingModa
               <p className="text-[#5A6077] font-medium">945 Total Reviews on Google</p>
             </div>
           </div>
-          <a href="https://g.co/kgs/DrArunHomeopathy" target="_blank" rel="noopener noreferrer"
+          <a href="https://g.page/r/CdjEvfRn1V2LEAI/review" target="_blank" rel="noopener noreferrer"
             className="bg-[#1B3A6B] text-white px-8 py-3 rounded-full hover:bg-[#2A4F8A] transition-all font-bold flex items-center gap-2">
             Write a Review
           </a>

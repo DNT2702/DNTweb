@@ -1,89 +1,238 @@
-import { Link, useLocation, useNavigate } from 'react-router';
-import logoImg from '../../assets/logo-transparent.png';
-import arhLogo from '../../assets/arh-logo-transparent.png';
+import { motion } from 'motion/react';
+import { ArrowUp, Mail, Phone, MapPin } from 'lucide-react';
 
-export default function Footer({ scrollTo, openBookingModal }: { scrollTo: (id: string) => void, openBookingModal: () => void }) {
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
+interface FooterProps {
+  scrollToSection: (id: string) => void;
+}
 
-  const handleContactClick = () => {
-    if (pathname !== '/') {
-      navigate('/#contact');
-    } else {
-      scrollTo('contact');
-    }
-  };
+const footerLinks = [
+  {
+    title: 'Services',
+    links: [
+      { label: 'Website Design', id: 'services' },
+      { label: 'Web Development', id: 'services' },
+      { label: 'UI/UX Design', id: 'services' },
+      { label: 'Branding', id: 'services' },
+      { label: 'SEO Optimization', id: 'services' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About Us', id: 'about' },
+      { label: 'Our Work', id: 'featured-project' },
+      { label: 'Process', id: 'process' },
+      { label: 'Testimonials', id: 'testimonials' },
+      { label: 'Contact', id: 'contact' },
+    ],
+  },
+];
 
+export default function Footer({ scrollToSection }: FooterProps) {
   return (
-    <footer className="bg-[#1A1A2E] text-white">
-      {/* Top strip */}
-      <div className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-wrap justify-center gap-8 text-sm font-medium text-white/60">
-            {['Our Mission', 'Awards', 'Experience', 'Success Story'].map(item => (
-              <span key={item} className="hover:text-white cursor-pointer transition-colors">{item}</span>
-            ))}
+    <footer
+      style={{
+        background: 'var(--navy-deep)',
+        borderTop: '1px solid var(--white-05)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Gradient accent line */}
+      <div style={{
+        height: 2,
+        background: 'linear-gradient(90deg, var(--blue-primary), var(--red-primary), var(--blue-primary))',
+        opacity: 0.5,
+      }} />
+
+      <div className="container" style={{ padding: '80px 24px 40px' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: 48,
+            marginBottom: 64,
+          }}
+        >
+          {/* Brand Column */}
+          <div style={{ maxWidth: 320 }}>
+            <div
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: 32,
+                fontWeight: 700,
+                color: 'var(--white)',
+                letterSpacing: '-0.03em',
+                marginBottom: 16,
+              }}
+            >
+              DNT<span style={{ color: 'var(--blue-bright)' }}>Web</span>
+            </div>
+            <p style={{
+              fontSize: 15,
+              color: 'var(--white-50)',
+              lineHeight: 1.7,
+              marginBottom: 24,
+            }}>
+              Design • Development • Branding • Digital Growth
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <a
+                href="mailto:hello@dntweb.com"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  color: 'var(--white-50)',
+                  textDecoration: 'none',
+                  fontSize: 14,
+                  transition: 'color 0.3s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--white)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--white-50)')}
+              >
+                <Mail size={16} />
+                hello@dntweb.com
+              </a>
+              <a
+                href="tel:+919876543210"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  color: 'var(--white-50)',
+                  textDecoration: 'none',
+                  fontSize: 14,
+                  transition: 'color 0.3s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--white)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--white-50)')}
+              >
+                <Phone size={16} />
+                +91 98765 43210
+              </a>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
+                color: 'var(--white-50)',
+                fontSize: 14,
+              }}>
+                <MapPin size={16} style={{ flexShrink: 0 }} />
+                India
+              </div>
+            </div>
+          </div>
+
+          {/* Link Columns */}
+          {footerLinks.map((col, i) => (
+            <div key={i}>
+              <h4 style={{
+                fontSize: 14,
+                fontWeight: 600,
+                color: 'var(--white)',
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                marginBottom: 20,
+                fontFamily: 'var(--font-heading)',
+              }}>
+                {col.title}
+              </h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {col.links.map((link, j) => (
+                  <button
+                    key={j}
+                    onClick={() => scrollToSection(link.id)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--white-50)',
+                      fontSize: 14,
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      padding: 0,
+                      fontFamily: 'var(--font-body)',
+                      transition: 'color 0.3s ease',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--white)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--white-50)')}
+                  >
+                    {link.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {/* CTA Column */}
+          <div>
+            <h4 style={{
+              fontSize: 14,
+              fontWeight: 600,
+              color: 'var(--white)',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              marginBottom: 20,
+              fontFamily: 'var(--font-heading)',
+            }}>
+              Start a Project
+            </h4>
+            <p style={{
+              fontSize: 14,
+              color: 'var(--white-50)',
+              lineHeight: 1.7,
+              marginBottom: 20,
+            }}>
+              Ready to elevate your digital presence? Let's talk.
+            </p>
+            <button
+              className="btn-primary"
+              onClick={() => scrollToSection('contact')}
+              style={{ padding: '12px 28px', fontSize: 13 }}
+            >
+              <span>Get Started</span>
+            </button>
           </div>
         </div>
-      </div>
 
-      {/* Main */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand */}
-          <div>
-            <div className="flex items-center gap-4 mb-5 bg-white/95 p-3.5 rounded-2xl w-fit shadow-lg">
-              <img src={logoImg} alt="Dr. Arun Homeopathy" className="h-11 w-auto object-contain" />
-              <div className="w-[1px] h-8 bg-[#1B3A6B]/20" />
-              <img src={arhLogo} alt="ARH Logo" className="h-9 w-auto object-contain mt-1" />
-            </div>
-            <p className="text-white/50 text-sm leading-relaxed">
-              Trusted homeopathy care for a healthier tomorrow. Choose Homeopathy — Effective · Gentle · Safe.
-            </p>
-          </div>
+        {/* Divider */}
+        <div className="section-divider" />
 
-          {/* Links */}
-          <div>
-            <h4 className="font-bold text-white mb-4 text-sm uppercase tracking-wider">Useful Links</h4>
-            <div className="space-y-2.5">
-              <Link to="/" className="block text-white/50 hover:text-white text-sm transition-colors">Home</Link>
-              <Link to="/about" className="block text-white/50 hover:text-white text-sm transition-colors">About Us</Link>
-              <Link to="/services" className="block text-white/50 hover:text-white text-sm transition-colors">Services</Link>
-              <Link to="/blog" className="block text-white/50 hover:text-white text-sm transition-colors">Blog</Link>
-              <button onClick={handleContactClick} className="block text-white/50 hover:text-white text-sm transition-colors">Contact</button>
-              <button onClick={openBookingModal} className="block text-[#C62828] font-bold hover:text-white text-sm transition-colors">Book Appointment</button>
-            </div>
-          </div>
+        {/* Bottom Bar */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingTop: 24,
+            flexWrap: 'wrap',
+            gap: 16,
+          }}
+        >
+          <p style={{ fontSize: 13, color: 'var(--white-30)' }}>
+            © {new Date().getFullYear()} DNTWeb. All rights reserved.
+          </p>
 
-          {/* Hours */}
-          <div>
-            <h4 className="font-bold text-white mb-4 text-sm uppercase tracking-wider">Working Time</h4>
-            <div className="space-y-2 text-sm text-white/50">
-              <div className="flex justify-between"><span>Mon – Fri</span><span className="text-white/70">9:00 AM – 8:00 PM</span></div>
-              <div className="flex justify-between"><span>Saturday</span><span className="text-white/70">10:00 AM – 6:00 PM</span></div>
-              <div className="flex justify-between"><span>Sunday</span><span className="text-[#C62828]">Closed</span></div>
-            </div>
-          </div>
-
-          {/* Address */}
-          <div>
-            <h4 className="font-bold text-white mb-4 text-sm uppercase tracking-wider">Our Address</h4>
-            <p className="text-white/50 text-sm leading-relaxed">
-              Sri Sai Nivas, Opp: Hindu paper office, 50-43-/4/3, TPT Colony, Balayya Sastri Layout, Seethammadara, Visakhapatnam, AP 530013
-            </p>
-            <p className="text-white/70 font-semibold text-sm mt-3">📞 +91 72071 15599</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom */}
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p className="text-white/40 text-xs">© 2026 Dr. Arun Homeopathy. All rights reserved.</p>
-          <div className="flex gap-6 text-white/40 text-xs">
-            <span className="hover:text-white cursor-pointer transition-colors">Terms & Conditions</span>
-            <span className="hover:text-white cursor-pointer transition-colors">Privacy Policy</span>
-          </div>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              background: 'var(--white-05)',
+              border: '1px solid var(--white-10)',
+              color: 'var(--white)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.3s ease',
+            }}
+          >
+            <ArrowUp size={18} />
+          </motion.button>
         </div>
       </div>
     </footer>

@@ -1,60 +1,178 @@
-import { motion } from 'motion/react';
-import { Shield, Heart } from 'lucide-react';
+import { useRef } from 'react';
+import { motion, useInView } from 'motion/react';
+import { Sparkles, Target, Zap, Globe } from 'lucide-react';
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 40 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
-};
+const features = [
+  {
+    icon: Sparkles,
+    title: 'Premium Design',
+    description: 'Award-worthy designs that captivate audiences and elevate your brand above the competition.',
+  },
+  {
+    icon: Target,
+    title: 'Strategic Approach',
+    description: 'Every pixel is purposeful. We align design decisions with your business goals for maximum impact.',
+  },
+  {
+    icon: Zap,
+    title: 'High Performance',
+    description: 'Lightning-fast websites optimized for speed, SEO, and conversion that grow with your business.',
+  },
+  {
+    icon: Globe,
+    title: 'Digital Growth',
+    description: 'End-to-end digital solutions from branding to development that drive measurable results.',
+  },
+];
+
+function AboutCard({ feature, i, isInView }: { feature: any; i: number; isInView: boolean }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (cardRef.current) {
+      const rect = cardRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      cardRef.current.style.setProperty('--mouse-x', `${x}px`);
+      cardRef.current.style.setProperty('--mouse-y', `${y}px`);
+    }
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: 0.2 + i * 0.1 }}
+      className="interactive-glow-card"
+      style={{ padding: 32 }}
+    >
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <div
+          style={{
+            width: 48,
+            height: 48,
+            borderRadius: 12,
+            background: 'var(--white-05)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 20,
+            border: '1px solid rgba(255,255,255,0.08)',
+          }}
+        >
+          <feature.icon size={24} style={{ color: 'var(--blue-light)' }} />
+        </div>
+        <h3
+          style={{
+            fontSize: 20,
+            fontWeight: 600,
+            color: 'var(--white)',
+            marginBottom: 8,
+            fontFamily: 'var(--font-heading)',
+          }}
+        >
+          {feature.title}
+        </h3>
+        <p style={{ fontSize: 15, color: 'var(--white-50)', lineHeight: 1.7 }}>
+          {feature.description}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function About() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+
   return (
-    <section id="about" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div {...fadeInUp} className="relative">
-            <div className="rounded-3xl overflow-hidden shadow-xl">
-              <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80" alt="Homeopathic Treatment"
-                className="w-full h-[480px] object-cover" />
-            </div>
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#1B3A6B]/10 rounded-full hidden lg:block" />
-            <div className="absolute -top-4 -left-4 w-20 h-20 border-4 border-[#4A7CC9]/20 rounded-full hidden lg:block" />
-          </motion.div>
+    <section id="about" className="section" ref={sectionRef} style={{ background: 'var(--navy)' }}>
+      {/* Decorative shape */}
+      <div
+        className="floating-shape"
+        style={{
+          width: 500,
+          height: 500,
+          top: -100,
+          right: -200,
+          background: 'radial-gradient(circle, rgba(13, 71, 161, 0.2) 0%, transparent 70%)',
+        }}
+      />
 
-          <motion.div {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.2 }}>
-            <div className="inline-flex items-center bg-[#1B3A6B]/10 rounded-full px-4 py-1.5 mb-4">
-              <span className="text-[#1B3A6B] text-xs font-semibold tracking-wider uppercase">About Us</span>
-            </div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-[#1A1A2E] mb-6" style={{ fontFamily: 'Lora' }}>
-              Safe & Effective Homeopathic Treatment{' '}
-              <span className="text-[#1B3A6B]">Tailored Just for You</span>
-            </h2>
-            <p className="text-[#5A6077] leading-relaxed mb-8">
-              The field of homeopathy goes beyond standard medicine by focusing on natural remedies that work in harmony with your body. Dr. Arun Homeopathy is committed to providing high-quality, cost-effective care, ensuring that every patient receives personalized attention and the best treatment options available.
-            </p>
+      <div className="container">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 80, alignItems: 'center' }}>
+          {/* Text */}
+          <div style={{ maxWidth: 700 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="section-label"
+            >
+              About DNTWeb
+            </motion.div>
 
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="flex items-center gap-4 bg-[#F0F4FA] rounded-xl p-4">
-                <div className="w-12 h-12 rounded-full bg-[#1B3A6B] flex items-center justify-center flex-shrink-0">
-                  <Shield className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-[#1A1A2E] text-sm">Infection Prevention</h4>
-                  <p className="text-xs text-[#5A6077]">Natural immunity boosting</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 bg-[#F0F4FA] rounded-xl p-4">
-                <div className="w-12 h-12 rounded-full bg-[#C62828] flex items-center justify-center flex-shrink-0">
-                  <Heart className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-[#1A1A2E] text-sm">Personalized Care</h4>
-                  <p className="text-xs text-[#5A6077]">Customized for each patient</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="section-title"
+            >
+              Crafting Digital{' '}
+              <span style={{ background: 'var(--gradient-blue)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                Excellence
+              </span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              style={{
+                fontSize: 17,
+                color: 'var(--white-50)',
+                lineHeight: 1.8,
+                marginTop: 24,
+                maxWidth: 580,
+              }}
+            >
+              DNTWeb is a premium digital agency that helps businesses create exceptional digital experiences.
+              Through modern design, cutting-edge development, strategic branding, and data-driven growth strategies,
+              we transform your online presence into a powerful business asset.
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              style={{
+                fontSize: 17,
+                color: 'var(--white-50)',
+                lineHeight: 1.8,
+                marginTop: 16,
+                maxWidth: 580,
+              }}
+            >
+              We believe every business deserves a world-class digital presence. Our team combines creative
+              vision with technical excellence to deliver solutions that not only look stunning but also
+              drive real, measurable results.
+            </motion.p>
+          </div>
+
+          {/* Feature Cards */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: 24,
+            }}
+          >
+            {features.map((feature, i) => (
+              <AboutCard key={i} feature={feature} i={i} isInView={isInView} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

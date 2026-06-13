@@ -1,122 +1,219 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MessageCircle, ArrowUp } from 'lucide-react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router';
-
+import Lenis from 'lenis';
 import Navbar from './sections/Navbar';
+import Hero from './sections/Hero';
+import About from './sections/About';
+import Services from './sections/Services';
+import WhyChoose from './sections/WhyChoose';
+import FeaturedProject from './sections/FeaturedProject';
+import Process from './sections/Process';
+import Technologies from './sections/Technologies';
+import Testimonials from './sections/Testimonials';
+import Contact from './sections/Contact';
 import Footer from './sections/Footer';
-import BookingModal from './components/BookingModal';
-import Chatbot from './components/Chatbot';
 
-// Pages
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import WhyHomeopathyPage from './pages/WhyHomeopathyPage';
-import ServicesPage from './pages/ServicesPage';
-import TestimonialsPage from './pages/TestimonialsPage';
-import BlogPage from './pages/BlogPage';
-
-// Scroll to top on route change
-function ScrollToTop() {
-  const { pathname, hash } = useLocation();
-  useEffect(() => {
-    if (!hash) {
-      window.scrollTo(0, 0);
-    } else {
-      const id = hash.replace('#', '');
-      const element = document.getElementById(id);
-      if (element) {
-        const offset = 80;
-        const pos = element.getBoundingClientRect().top + window.pageYOffset;
-        window.scrollTo({ top: pos - offset, behavior: 'smooth' });
-      }
-    }
-  }, [pathname, hash]);
-  return null;
-}
-
-function MainLayout() {
-  const [showScrollTop, setShowScrollTop] = useState(false);
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-  const { pathname } = useLocation();
+function LoadingScreen({ onComplete }: { onComplete: () => void }) {
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => setShowScrollTop(window.scrollY > 600);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const scrollTo = (id: string) => {
-    // If not on home page, navigation will handle via hash in ScrollToTop
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const pos = element.getBoundingClientRect().top + window.pageYOffset;
-      window.scrollTo({ top: pos - offset, behavior: 'smooth' });
-    }
-  };
-
-  const openBookingModal = () => setIsBookingModalOpen(true);
-  const closeBookingModal = () => setIsBookingModalOpen(false);
+    const timer = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(timer);
+          setTimeout(onComplete, 400);
+          return 100;
+        }
+        return prev + 2;
+      });
+    }, 30);
+    return () => clearInterval(timer);
+  }, [onComplete]);
 
   return (
-    <div className="bg-[#F0F4FA] min-h-screen">
-      <ScrollToTop />
-      <Navbar scrollTo={scrollTo} openBookingModal={openBookingModal} />
-      <BookingModal isOpen={isBookingModalOpen} onClose={closeBookingModal} />
-      
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage scrollTo={scrollTo} openBookingModal={openBookingModal} />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/why-homeopathy" element={<WhyHomeopathyPage openBookingModal={openBookingModal} />} />
-          <Route path="/services" element={<ServicesPage openBookingModal={openBookingModal} />} />
-          <Route path="/testimonials" element={<TestimonialsPage openBookingModal={openBookingModal} />} />
-          <Route path="/blog" element={<BlogPage />} />
-        </Routes>
-      </main>
+    <motion.div
+      className="loading-screen"
+      exit={{ opacity: 0, scale: 1.05 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <div style={{ textAlign: 'center' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="loading-logo"
+        >
+          DNT<span className="accent">Web</span>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          style={{
+            marginTop: 32,
+            width: 200,
+            height: 2,
+            background: 'var(--white-10)',
+            borderRadius: 2,
+            overflow: 'hidden',
+          }}
+        >
+          <motion.div
+            style={{
+              height: '100%',
+              background: 'var(--gradient-blue)',
+              borderRadius: 2,
+              width: `${progress}%`,
+            }}
+            transition={{ duration: 0.1 }}
+          />
+        </motion.div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          style={{
+            marginTop: 16,
+            fontSize: 13,
+            color: 'var(--white-30)',
+            fontFamily: 'var(--font-body)',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+          }}
+        >
+          Loading Experience
+        </motion.p>
+      </div>
+    </motion.div>
+  );
+}
 
-      <Footer scrollTo={scrollTo} openBookingModal={openBookingModal} />
+function CustomCursor() {
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
 
-      {/* Chatbot */}
-      <Chatbot />
+  useEffect(() => {
+    let mouseX = 0;
+    let mouseY = 0;
+    let ringX = 0;
+    let ringY = 0;
 
-      {/* Floating WhatsApp */}
-      <motion.a href="https://wa.me/917207115599" target="_blank" rel="noopener noreferrer"
-        initial={{ scale: 0 }} animate={{ scale: 1 }}
-        transition={{ delay: 1, type: 'spring', stiffness: 260, damping: 20 }}
-        whileHover={{ scale: 1.1 }}
-        className="fixed bottom-6 left-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-colors z-40">
-        <MessageCircle className="w-6 h-6" />
-      </motion.a>
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      }
+    };
 
-      {/* Floating Book */}
-      <motion.button onClick={openBookingModal}
-        initial={{ scale: 0 }} animate={{ scale: 1 }}
-        transition={{ delay: 1.2, type: 'spring', stiffness: 260, damping: 20 }}
-        whileHover={{ scale: 1.1 }}
-        className="fixed bottom-6 right-6 bg-[#1B3A6B] text-white px-6 py-4 rounded-full shadow-2xl hover:bg-[#2A4F8A] transition-colors z-40 font-semibold text-sm">
-        Book Now
-      </motion.button>
+    const updateRing = () => {
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
 
-      {/* Scroll to top */}
-      <AnimatePresence>
-        {showScrollTop && (
-          <motion.button initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="fixed bottom-24 right-6 w-11 h-11 rounded-full bg-[#C62828] text-white flex items-center justify-center shadow-lg hover:bg-[#E53935] transition-colors z-40">
-            <ArrowUp className="w-5 h-5" />
-          </motion.button>
-        )}
-      </AnimatePresence>
-    </div>
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      }
+      requestAnimationFrame(updateRing);
+    };
+
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === 'BUTTON' ||
+        target.tagName === 'A' ||
+        target.closest('button') ||
+        target.closest('a') ||
+        target.closest('.interactive-glow-card') ||
+        target.style.cursor === 'pointer'
+      ) {
+        setHovered(true);
+      } else {
+        setHovered(false);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseover', handleMouseOver);
+    const animId = requestAnimationFrame(updateRing);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseover', handleMouseOver);
+      cancelAnimationFrame(animId);
+    };
+  }, []);
+
+  return (
+    <>
+      <div ref={dotRef} className="custom-cursor-dot" />
+      <div ref={ringRef} className={`custom-cursor-ring ${hovered ? 'hovered' : ''}`} />
+    </>
   );
 }
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (isLoading) return;
+    
+    // Initialize Lenis smooth scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+    
+    return () => {
+      lenis.destroy();
+    };
+  }, [isLoading]);
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const pos = element.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: pos, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <MainLayout />
-    </BrowserRouter>
+    <>
+      <AnimatePresence mode="wait">
+        {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      </AnimatePresence>
+
+      {!isLoading && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <CustomCursor />
+          <div className="grain-overlay" />
+          <Navbar scrollToSection={scrollToSection} />
+          <main>
+            <Hero scrollToSection={scrollToSection} />
+            <About />
+            <Services />
+            <WhyChoose />
+            <FeaturedProject />
+            <Process />
+            <Technologies />
+            <Testimonials />
+            <Contact />
+          </main>
+          <Footer scrollToSection={scrollToSection} />
+        </motion.div>
+      )}
+    </>
   );
 }

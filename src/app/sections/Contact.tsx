@@ -1,55 +1,215 @@
-import { motion } from 'motion/react';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
-import BookingForm from '../components/BookingForm';
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 40 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
-};
+import { useRef, useState } from 'react';
+import { motion, useInView } from 'motion/react';
+import { Send, ArrowRight } from 'lucide-react';
 
 export default function Contact() {
-  const contactItems = [
-    { icon: MapPin, label: 'Address', value: 'Sri Sai Nivas, Opp: Hindu paper office, 50-43-/4/3, TPT Colony, Seethammadara, Visakhapatnam, AP 530013' },
-    { icon: Phone, label: 'Phone', value: '+91 72071 15599' },
-    { icon: Mail, label: 'Email', value: 'info@drarunhomeopathy.com' },
-    { icon: Clock, label: 'Clinic Timings', value: 'Mon-Sat: 9:00 AM - 8:00 PM\nSunday: Closed' },
-  ];
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const [formState, setFormState] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    details: '',
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormState(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 4000);
+    setFormState({ name: '', email: '', phone: '', details: '' });
+  };
 
   return (
-    <section id="contact" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div {...fadeInUp} className="text-center mb-14">
-          <div className="inline-flex items-center bg-[#1B3A6B]/10 rounded-full px-4 py-1.5 mb-4">
-            <span className="text-[#1B3A6B] text-xs font-semibold tracking-wider uppercase">Get in Touch</span>
-          </div>
-          <h2 className="text-3xl lg:text-4xl font-bold text-[#1A1A2E]" style={{ fontFamily: 'Lora' }}>
-            Visit Our <span className="text-[#1B3A6B]">Clinic</span>
-          </h2>
-        </motion.div>
+    <section id="contact" className="section" ref={sectionRef}>
+      <div
+        className="floating-shape"
+        style={{ width: 500, height: 500, top: -100, left: -200, background: 'var(--blue-primary)' }}
+      />
+      <div
+        className="floating-shape"
+        style={{ width: 400, height: 400, bottom: -100, right: -150, background: 'var(--red-primary)' }}
+      />
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          <motion.div {...fadeInUp} className="space-y-5">
-            {contactItems.map((item, i) => (
-              <div key={i} className="flex items-start gap-4 bg-[#F0F4FA] rounded-xl p-5 border border-[#1B3A6B]/5">
-                <div className="w-10 h-10 rounded-xl bg-[#1B3A6B] flex items-center justify-center flex-shrink-0">
-                  <item.icon className="w-5 h-5 text-white" />
+      <div className="container">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 64, maxWidth: 800, margin: '0 auto' }}>
+          {/* Header */}
+          <div style={{ textAlign: 'center' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="section-label"
+              style={{ justifyContent: 'center' }}
+            >
+              Get In Touch
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="section-title"
+              style={{ margin: '0 auto' }}
+            >
+              Let's Build Something{' '}
+              <span style={{
+                background: 'var(--gradient-blue)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}>
+                Extraordinary
+              </span>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="section-subtitle"
+              style={{ margin: '16px auto 0' }}
+            >
+              Ready to transform your digital presence? Tell us about your project
+              and we'll get back to you within 24 hours.
+            </motion.p>
+          </div>
+
+          {/* Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <form
+              onSubmit={handleSubmit}
+              className="glass-card"
+              style={{
+                padding: '48px 40px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 20,
+              }}
+            >
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20 }}>
+                <div>
+                  <label
+                    style={{
+                      display: 'block',
+                      fontSize: 13,
+                      fontWeight: 500,
+                      color: 'var(--white-50)',
+                      marginBottom: 8,
+                      letterSpacing: '0.02em',
+                    }}
+                  >
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formState.name}
+                    onChange={handleChange}
+                    placeholder="Your name"
+                    className="form-input"
+                    required
+                  />
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#1A1A2E] text-sm mb-0.5">{item.label}</h4>
-                  <p className="text-sm text-[#5A6077] whitespace-pre-line">{item.value}</p>
+                  <label
+                    style={{
+                      display: 'block',
+                      fontSize: 13,
+                      fontWeight: 500,
+                      color: 'var(--white-50)',
+                      marginBottom: 8,
+                      letterSpacing: '0.02em',
+                    }}
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formState.email}
+                    onChange={handleChange}
+                    placeholder="your@email.com"
+                    className="form-input"
+                    required
+                  />
                 </div>
               </div>
-            ))}
-          </motion.div>
 
-          {/* Booking Section */}
-          <motion.div {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.2 }} id="booking">
-            <div className="bg-[#1B3A6B] rounded-2xl p-8 shadow-2xl">
-              <h3 className="text-2xl font-bold text-white mb-6" style={{ fontFamily: 'Lora' }}>Book Appointment</h3>
-              <BookingForm dark={true} />
-            </div>
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: 13,
+                    fontWeight: 500,
+                    color: 'var(--white-50)',
+                    marginBottom: 8,
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  Phone
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formState.phone}
+                  onChange={handleChange}
+                  placeholder="+91 XXXXX XXXXX"
+                  className="form-input"
+                />
+              </div>
+
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: 13,
+                    fontWeight: 500,
+                    color: 'var(--white-50)',
+                    marginBottom: 8,
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  Project Details
+                </label>
+                <textarea
+                  name="details"
+                  value={formState.details}
+                  onChange={handleChange}
+                  placeholder="Tell us about your project, goals, and timeline..."
+                  className="form-input"
+                  rows={5}
+                  style={{ resize: 'vertical', minHeight: 120 }}
+                  required
+                />
+              </div>
+
+              <motion.button
+                type="submit"
+                className="btn-primary"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  marginTop: 8,
+                  padding: '18px 36px',
+                }}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  {submitted ? (
+                    <>Thank You! We'll Be In Touch</>
+                  ) : (
+                    <>Get Started <Send size={18} /></>
+                  )}
+                </span>
+              </motion.button>
+            </form>
           </motion.div>
         </div>
       </div>
