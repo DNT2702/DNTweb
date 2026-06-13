@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'motion/react';
 import {
   Heart, Smartphone, Search, Video,
-  Calendar, MonitorSmartphone, ArrowRight, ExternalLink,
+  Calendar, MonitorSmartphone, ArrowRight,
 } from 'lucide-react';
 
 const highlights = [
@@ -282,6 +282,7 @@ export default function FeaturedProject() {
 
   // Calculate translation of the horizontal track
   const xTranslate = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <div
@@ -303,6 +304,10 @@ export default function FeaturedProject() {
           alignItems: 'center',
         }}
       >
+        {/* Atmospheric depth */}
+        <div className="floating-shape floating-shape-blue" style={{ width: 600, height: 600, top: '-15%', left: '5%' }} />
+        <div className="floating-shape floating-shape-red" style={{ width: 500, height: 500, bottom: '-15%', right: '10%' }} />
+
         <motion.div
           style={{
             x: xTranslate,
@@ -470,9 +475,10 @@ export default function FeaturedProject() {
                     borderRadius: 12,
                     background: 'var(--white-05)',
                     border: '1px solid var(--white-10)',
+                    transition: 'all 0.4s var(--ease-out-expo)',
                   }}
                 >
-                  <item.icon size={18} style={{ color: 'var(--blue-light)', flexShrink: 0 }} />
+                  <item.icon size={18} style={{ color: i % 2 === 1 ? 'var(--red-glow)' : 'var(--blue-light)', flexShrink: 0 }} />
                   <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--white-70)' }}>
                     {item.label}
                   </span>
@@ -481,6 +487,29 @@ export default function FeaturedProject() {
             </div>
           </div>
         </motion.div>
+
+        {/* Scroll progress indicator */}
+        <div
+          style={{
+            position: 'absolute',
+            left: '10vw',
+            right: '10vw',
+            bottom: 40,
+            height: 2,
+            borderRadius: 2,
+            background: 'var(--white-10)',
+            overflow: 'hidden',
+          }}
+        >
+          <motion.div
+            style={{
+              width: progressWidth,
+              height: '100%',
+              background: 'var(--gradient-signature)',
+              borderRadius: 2,
+            }}
+          />
+        </div>
       </div>
 
       <style>{`

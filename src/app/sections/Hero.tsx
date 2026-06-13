@@ -110,11 +110,11 @@ export default function Hero({ scrollToSection }: HeroProps) {
           position: 'absolute',
           top: '-10%',
           right: '-10%',
-          width: 800,
-          height: 800,
+          width: 900,
+          height: 900,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(13, 71, 161, 0.3) 0%, transparent 60%)',
-          filter: 'blur(100px)',
+          background: 'radial-gradient(circle, rgba(33, 150, 243, 0.32) 0%, transparent 60%)',
+          filter: 'blur(110px)',
           pointerEvents: 'none',
         }}
       />
@@ -130,11 +130,31 @@ export default function Hero({ scrollToSection }: HeroProps) {
           position: 'absolute',
           bottom: '-10%',
           left: '-10%',
-          width: 700,
-          height: 700,
+          width: 750,
+          height: 750,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(198, 40, 40, 0.18) 0%, transparent 60%)',
-          filter: 'blur(100px)',
+          background: 'radial-gradient(circle, rgba(255, 82, 82, 0.22) 0%, transparent 60%)',
+          filter: 'blur(110px)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Subtle mid-depth accent orb for layering */}
+      <motion.div
+        animate={{
+          scale: [1, 1.15, 1],
+          opacity: [0.5, 0.8, 0.5],
+        }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        style={{
+          position: 'absolute',
+          top: '35%',
+          left: '45%',
+          width: 500,
+          height: 500,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(33, 150, 243, 0.08) 0%, transparent 70%)',
+          filter: 'blur(90px)',
           pointerEvents: 'none',
         }}
       />
@@ -146,7 +166,7 @@ export default function Hero({ scrollToSection }: HeroProps) {
           animate={{
             y: [0, -40, 0],
             x: [0, 15, -15, 0],
-            opacity: [0.08, 0.3, 0.08],
+            opacity: [0.08, 0.35, 0.08],
           }}
           transition={{
             duration: p.duration,
@@ -161,7 +181,7 @@ export default function Hero({ scrollToSection }: HeroProps) {
             width: p.size,
             height: p.size,
             borderRadius: '50%',
-            background: 'var(--blue-light)',
+            background: p.id % 4 === 0 ? 'var(--red-glow)' : 'var(--blue-light)',
             pointerEvents: 'none',
           }}
         />
@@ -189,7 +209,8 @@ export default function Hero({ scrollToSection }: HeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             style={{
-              fontSize: 'clamp(56px, 10vw, 120px)',
+              position: 'relative',
+              fontSize: 'clamp(56px, 10vw, 128px)',
               fontWeight: 800,
               lineHeight: 0.95,
               letterSpacing: '-0.04em',
@@ -198,10 +219,22 @@ export default function Hero({ scrollToSection }: HeroProps) {
               fontFamily: 'var(--font-heading)',
             }}
           >
+            <span
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                inset: '-40% -10%',
+                background: 'radial-gradient(ellipse at 60% 50%, rgba(33,150,243,0.25) 0%, transparent 55%)',
+                filter: 'blur(60px)',
+                zIndex: -1,
+                pointerEvents: 'none',
+              }}
+            />
             DNT<span style={{
-              background: 'var(--gradient-blue)',
+              background: 'var(--gradient-signature)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
             }}>Web</span>
           </motion.h1>
 
@@ -286,25 +319,31 @@ export default function Hero({ scrollToSection }: HeroProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
-            style={{
-              display: 'flex',
-              gap: 48,
-              marginTop: 64,
-              flexWrap: 'wrap',
-            }}
+            style={{ marginTop: 64 }}
           >
-            {[
-              { value: '50+', label: 'Projects Delivered' },
-              { value: '25+', label: 'Happy Clients' },
-              { value: '3+', label: 'Years Experience' },
-            ].map((stat, i) => (
-              <div key={i}>
-                <div className="stat-number" style={{ fontSize: 36 }}>{stat.value}</div>
-                <div style={{ color: 'var(--white-30)', fontSize: 13, marginTop: 4, fontWeight: 500 }}>
-                  {stat.label}
+            <div className="divider-signature" style={{ marginBottom: 32, maxWidth: 480 }} />
+            <div style={{ display: 'flex', gap: 48, flexWrap: 'wrap' }}>
+              {[
+                { value: '50+', label: 'Projects Delivered' },
+                { value: '25+', label: 'Happy Clients' },
+                { value: '3+', label: 'Years Experience' },
+              ].map((stat, i) => (
+                <div
+                  key={i}
+                  style={{
+                    paddingLeft: i === 0 ? 0 : 24,
+                    borderLeft: i === 0 ? 'none' : '1px solid var(--white-10)',
+                  }}
+                >
+                  <div className={i === 1 ? 'stat-number stat-number-red' : 'stat-number'} style={{ fontSize: 36 }}>
+                    {stat.value}
+                  </div>
+                  <div style={{ color: 'var(--white-30)', fontSize: 13, marginTop: 4, fontWeight: 500, letterSpacing: '0.02em' }}>
+                    {stat.label}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </motion.div>
         </div>
       </motion.div>
@@ -335,7 +374,7 @@ export default function Hero({ scrollToSection }: HeroProps) {
             width: 18,
             height: 28,
             borderRadius: 9,
-            border: '1.5px solid var(--white-20)',
+            border: '1.5px solid var(--white-30)',
             display: 'flex',
             alignItems: 'flex-start',
             justifyContent: 'center',

@@ -113,8 +113,22 @@ function TechCard({ tech, i, isInView }: { tech: any; i: number; isInView: boole
         gap: 12,
         padding: '32px 24px',
         cursor: 'default',
+        position: 'relative',
+        overflow: 'hidden',
       }}
+      whileHover={{ y: -4 }}
     >
+      {/* Tech-color glow on hover */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: `radial-gradient(circle at 50% 0%, ${tech.color}20 0%, transparent 70%)`,
+          opacity: 0,
+          transition: 'opacity 0.4s ease',
+        }}
+        className="tech-glow"
+      />
       <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
         <div style={{ opacity: 0.9 }}>
           {tech.icon}
@@ -124,6 +138,7 @@ function TechCard({ tech, i, isInView }: { tech: any; i: number; isInView: boole
           fontWeight: 600,
           color: 'var(--white-70)',
           fontFamily: 'var(--font-body)',
+          letterSpacing: '0.01em',
         }}>
           {tech.name}
         </span>
@@ -138,6 +153,10 @@ export default function Technologies() {
 
   return (
     <section id="technologies" className="section" ref={sectionRef}>
+      <div
+        className="floating-shape floating-shape-blue"
+        style={{ width: 500, height: 500, top: '10%', right: -200 }}
+      />
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: 64 }}>
           <motion.div

@@ -23,7 +23,7 @@ const stats = [
   { value: 24, suffix: '/7', label: 'Support Available' },
 ];
 
-function AnimatedCounter({ value, suffix, inView }: { value: number; suffix: string; inView: boolean }) {
+function AnimatedCounter({ value, suffix, inView, isRed }: { value: number; suffix: string; inView: boolean; isRed?: boolean }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function AnimatedCounter({ value, suffix, inView }: { value: number; suffix: str
   }, [inView, value]);
 
   return (
-    <span className="stat-number">
+    <span className={isRed ? 'stat-number stat-number-red' : 'stat-number'}>
       {count}{suffix}
     </span>
   );
@@ -52,6 +52,7 @@ function AnimatedCounter({ value, suffix, inView }: { value: number; suffix: str
 
 function PointCard({ point, i, isInView }: { point: any; i: number; isInView: boolean }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const isRed = i % 2 === 1;
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (cardRef.current) {
@@ -85,14 +86,16 @@ function PointCard({ point, i, isInView }: { point: any; i: number; isInView: bo
             height: 44,
             minWidth: 44,
             borderRadius: 12,
-            background: 'linear-gradient(135deg, rgba(13, 71, 161, 0.15) 0%, rgba(198, 40, 40, 0.1) 100%)',
+            background: isRed
+              ? 'linear-gradient(135deg, rgba(255,82,82,0.16) 0%, rgba(255,82,82,0.04) 100%)'
+              : 'linear-gradient(135deg, rgba(33,150,243,0.16) 0%, rgba(33,150,243,0.04) 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            border: '1px solid rgba(13, 71, 161, 0.15)',
+            border: isRed ? '1px solid rgba(255,82,82,0.22)' : '1px solid rgba(33,150,243,0.22)',
           }}
         >
-          <point.icon size={20} style={{ color: 'var(--blue-light)' }} />
+          <point.icon size={20} style={{ color: isRed ? 'var(--red-glow)' : 'var(--blue-light)' }} />
         </div>
         <div>
           <h3
@@ -102,11 +105,12 @@ function PointCard({ point, i, isInView }: { point: any; i: number; isInView: bo
               color: 'var(--white)',
               marginBottom: 4,
               fontFamily: 'var(--font-heading)',
+              letterSpacing: '-0.01em',
             }}
           >
             {point.title}
           </h3>
-          <p style={{ fontSize: 14, color: 'var(--white-50)', lineHeight: 1.6 }}>
+          <p style={{ fontSize: 14, color: 'var(--white-60)', lineHeight: 1.6 }}>
             {point.description}
           </p>
         </div>
@@ -124,8 +128,8 @@ export default function WhyChoose() {
   return (
     <section id="why-choose" className="section" ref={sectionRef} style={{ background: 'var(--navy)' }}>
       <div
-        className="floating-shape"
-        style={{ width: 500, height: 500, top: '20%', right: -200, background: 'var(--blue-primary)' }}
+        className="floating-shape floating-shape-blue"
+        style={{ width: 550, height: 550, top: '15%', right: -200 }}
       />
 
       <div className="container">
@@ -146,7 +150,7 @@ export default function WhyChoose() {
             className="section-title"
           >
             Why{' '}
-            <span style={{ background: 'var(--gradient-blue)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <span style={{ background: 'var(--gradient-signature)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               DNTWeb
             </span>
             ?
@@ -178,14 +182,14 @@ export default function WhyChoose() {
           {stats.map((stat, i) => (
             <div
               key={i}
-              className="glass-card"
+              className={i === 0 ? 'glass-card-featured' : 'glass-card'}
               style={{
                 padding: 32,
                 textAlign: 'center',
               }}
             >
-              <AnimatedCounter value={stat.value} suffix={stat.suffix} inView={statsInView} />
-              <div style={{ fontSize: 14, color: 'var(--white-50)', marginTop: 8, fontWeight: 500 }}>
+              <AnimatedCounter value={stat.value} suffix={stat.suffix} inView={statsInView} isRed={i % 2 === 1} />
+              <div style={{ fontSize: 14, color: 'var(--white-60)', marginTop: 8, fontWeight: 500 }}>
                 {stat.label}
               </div>
             </div>

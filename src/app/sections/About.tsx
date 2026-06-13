@@ -27,6 +27,7 @@ const features = [
 
 function AboutCard({ feature, i, isInView }: { feature: any; i: number; isInView: boolean }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const isRed = i % 2 === 1;
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (cardRef.current) {
@@ -48,21 +49,41 @@ function AboutCard({ feature, i, isInView }: { feature: any; i: number; isInView
       className="interactive-glow-card"
       style={{ padding: 32 }}
     >
+      {/* Decorative index numeral */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 12,
+          right: 20,
+          fontFamily: 'var(--font-heading)',
+          fontSize: 52,
+          fontWeight: 700,
+          color: 'var(--white-05)',
+          lineHeight: 1,
+          letterSpacing: '-0.02em',
+          pointerEvents: 'none',
+        }}
+      >
+        {String(i + 1).padStart(2, '0')}
+      </div>
+
       <div style={{ position: 'relative', zIndex: 1 }}>
         <div
           style={{
             width: 48,
             height: 48,
             borderRadius: 12,
-            background: 'var(--white-05)',
+            background: isRed
+              ? 'linear-gradient(135deg, rgba(255,82,82,0.16) 0%, rgba(255,82,82,0.04) 100%)'
+              : 'linear-gradient(135deg, rgba(33,150,243,0.16) 0%, rgba(33,150,243,0.04) 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: 20,
-            border: '1px solid rgba(255,255,255,0.08)',
+            border: isRed ? '1px solid rgba(255,82,82,0.22)' : '1px solid rgba(33,150,243,0.22)',
           }}
         >
-          <feature.icon size={24} style={{ color: 'var(--blue-light)' }} />
+          <feature.icon size={24} style={{ color: isRed ? 'var(--red-glow)' : 'var(--blue-light)' }} />
         </div>
         <h3
           style={{
@@ -71,11 +92,12 @@ function AboutCard({ feature, i, isInView }: { feature: any; i: number; isInView
             color: 'var(--white)',
             marginBottom: 8,
             fontFamily: 'var(--font-heading)',
+            letterSpacing: '-0.01em',
           }}
         >
           {feature.title}
         </h3>
-        <p style={{ fontSize: 15, color: 'var(--white-50)', lineHeight: 1.7 }}>
+        <p style={{ fontSize: 15, color: 'var(--white-60)', lineHeight: 1.7 }}>
           {feature.description}
         </p>
       </div>

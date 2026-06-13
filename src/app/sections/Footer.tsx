@@ -41,7 +41,7 @@ export default function Footer({ scrollToSection }: FooterProps) {
       {/* Gradient accent line */}
       <div style={{
         height: 2,
-        background: 'linear-gradient(90deg, var(--blue-primary), var(--red-primary), var(--blue-primary))',
+        background: 'var(--gradient-signature)',
         opacity: 0.5,
       }} />
 
@@ -58,6 +58,9 @@ export default function Footer({ scrollToSection }: FooterProps) {
           <div style={{ maxWidth: 320 }}>
             <div
               style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
                 fontFamily: 'var(--font-heading)',
                 fontSize: 32,
                 fontWeight: 700,
@@ -66,11 +69,18 @@ export default function Footer({ scrollToSection }: FooterProps) {
                 marginBottom: 16,
               }}
             >
+              <span style={{
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                background: 'var(--gradient-signature)',
+                boxShadow: '0 0 12px rgba(33,150,243,0.5)',
+              }} />
               DNT<span style={{ color: 'var(--blue-bright)' }}>Web</span>
             </div>
             <p style={{
               fontSize: 15,
-              color: 'var(--white-50)',
+              color: 'var(--white-60)',
               lineHeight: 1.7,
               marginBottom: 24,
             }}>
@@ -179,7 +189,7 @@ export default function Footer({ scrollToSection }: FooterProps) {
             </h4>
             <p style={{
               fontSize: 14,
-              color: 'var(--white-50)',
+              color: 'var(--white-60)',
               lineHeight: 1.7,
               marginBottom: 20,
             }}>
@@ -214,7 +224,7 @@ export default function Footer({ scrollToSection }: FooterProps) {
           </p>
 
           <motion.button
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.1, y: -2 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             style={{
@@ -228,7 +238,15 @@ export default function Footer({ scrollToSection }: FooterProps) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'all 0.3s ease',
+              transition: 'background 0.3s ease, border-color 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'var(--white-10)';
+              e.currentTarget.style.borderColor = 'var(--blue-light)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'var(--white-05)';
+              e.currentTarget.style.borderColor = 'var(--white-10)';
             }}
           >
             <ArrowUp size={18} />

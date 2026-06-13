@@ -17,11 +17,30 @@ interface NavbarProps {
 export default function Navbar({ scrollToSection }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sections = navLinks
+      .map((link) => document.getElementById(link.id))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: '-40% 0px -50% 0px', threshold: 0 }
+    );
+
+    sections.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -49,11 +68,13 @@ export default function Navbar({ scrollToSection }: NavbarProps) {
           left: 0,
           right: 0,
           zIndex: 1000,
-          padding: isScrolled ? '12px 0' : '20px 0',
-          background: isScrolled ? 'rgba(5, 10, 24, 0.9)' : 'transparent',
-          backdropFilter: isScrolled ? 'blur(20px)' : 'none',
-          borderBottom: isScrolled ? '1px solid var(--white-05)' : 'none',
-          transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          padding: isScrolled ? '14px 0' : '24px 0',
+          background: isScrolled ? 'rgba(5, 5, 5, 0.72)' : 'transparent',
+          backdropFilter: isScrolled ? 'blur(24px)' : 'none',
+          WebkitBackdropFilter: isScrolled ? 'blur(24px)' : 'none',
+          borderBottom: isScrolled ? '1px solid var(--white-10)' : '1px solid transparent',
+          boxShadow: isScrolled ? '0 1px 0 0 rgba(33,150,243,0.08)' : 'none',
+          transition: 'all 0.5s var(--ease-out-expo)',
         }}
       >
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -62,42 +83,70 @@ export default function Navbar({ scrollToSection }: NavbarProps) {
             whileHover={{ scale: 1.02 }}
             style={{
               fontFamily: 'var(--font-heading)',
-              fontSize: 28,
+              fontSize: 26,
               fontWeight: 700,
               color: 'var(--white)',
               letterSpacing: '-0.03em',
               cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
             }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
+            <span style={{
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              background: 'var(--gradient-signature)',
+              boxShadow: '0 0 12px rgba(33,150,243,0.6)',
+            }} />
             DNT<span style={{ color: 'var(--blue-bright)' }}>Web</span>
           </motion.div>
 
           {/* Desktop Nav */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 40 }} className="desktop-nav">
-            {navLinks.map((link) => (
-              <motion.button
-                key={link.id}
-                onClick={() => handleNav(link.id)}
-                whileHover={{ y: -2 }}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--white-70)',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 14,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  letterSpacing: '0.02em',
-                  transition: 'color 0.3s ease',
-                  padding: 0,
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--white)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--white-70)')}
-              >
-                {link.label}
-              </motion.button>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => handleNav(link.id)}
+                  style={{
+                    position: 'relative',
+                    background: 'none',
+                    border: 'none',
+                    color: isActive ? 'var(--white)' : 'var(--white-60)',
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 14,
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    letterSpacing: '0.03em',
+                    transition: 'color 0.3s ease',
+                    padding: '6px 0',
+                  }}
+                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = 'var(--white)'; }}
+                  onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = 'var(--white-60)'; }}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      style={{
+                        position: 'absolute',
+                        bottom: -2,
+                        left: 0,
+                        right: 0,
+                        height: 2,
+                        borderRadius: 2,
+                        background: 'var(--gradient-signature)',
+                      }}
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                </button>
+              );
+            })}
             <button className="btn-primary" onClick={() => handleNav('contact')} style={{ padding: '12px 28px', fontSize: 14 }}>
               <span>Get Started</span>
             </button>
@@ -160,12 +209,13 @@ export default function Navbar({ scrollToSection }: NavbarProps) {
                 key={link.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
+                transition={{ delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => handleNav(link.id)}
+                whileHover={{ x: 8 }}
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: 'var(--white)',
+                  color: activeSection === link.id ? 'var(--blue-light)' : 'var(--white)',
                   fontFamily: 'var(--font-heading)',
                   fontSize: 32,
                   fontWeight: 600,

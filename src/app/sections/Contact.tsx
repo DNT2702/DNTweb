@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
-import { Send, ArrowRight } from 'lucide-react';
+import { Send, CheckCircle } from 'lucide-react';
 
 export default function Contact() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -27,12 +27,12 @@ export default function Contact() {
   return (
     <section id="contact" className="section" ref={sectionRef}>
       <div
-        className="floating-shape"
-        style={{ width: 500, height: 500, top: -100, left: -200, background: 'var(--blue-primary)' }}
+        className="floating-shape floating-shape-blue"
+        style={{ width: 500, height: 500, top: -100, left: -200 }}
       />
       <div
-        className="floating-shape"
-        style={{ width: 400, height: 400, bottom: -100, right: -150, background: 'var(--red-primary)' }}
+        className="floating-shape floating-shape-red"
+        style={{ width: 400, height: 400, bottom: -100, right: -150 }}
       />
 
       <div className="container">
@@ -57,7 +57,7 @@ export default function Contact() {
             >
               Let's Build Something{' '}
               <span style={{
-                background: 'var(--gradient-blue)',
+                background: 'var(--gradient-signature)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               }}>
@@ -84,7 +84,7 @@ export default function Contact() {
           >
             <form
               onSubmit={handleSubmit}
-              className="glass-card"
+              className="glass-card-featured"
               style={{
                 padding: '48px 40px',
                 display: 'flex',
@@ -147,7 +147,7 @@ export default function Contact() {
                     display: 'block',
                     fontSize: 13,
                     fontWeight: 500,
-                    color: 'var(--white-50)',
+                    color: 'var(--white-60)',
                     marginBottom: 8,
                     letterSpacing: '0.02em',
                   }}
@@ -170,7 +170,7 @@ export default function Contact() {
                     display: 'block',
                     fontSize: 13,
                     fontWeight: 500,
-                    color: 'var(--white-50)',
+                    color: 'var(--white-60)',
                     marginBottom: 8,
                     letterSpacing: '0.02em',
                   }}
@@ -203,7 +203,7 @@ export default function Contact() {
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   {submitted ? (
-                    <>Thank You! We'll Be In Touch</>
+                    <>Thank You! We'll Be In Touch <CheckCircle size={18} /></>
                   ) : (
                     <>Get Started <Send size={18} /></>
                   )}

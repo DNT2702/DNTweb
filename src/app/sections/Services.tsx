@@ -20,6 +20,8 @@ const services = [
 
 function ServiceCard({ service, i, isInView }: { service: any; i: number; isInView: boolean }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const isRed = i % 2 === 1;
+  const isFeatured = i === 0;
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (cardRef.current) {
@@ -38,28 +40,66 @@ function ServiceCard({ service, i, isInView }: { service: any; i: number; isInVi
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: 0.1 + i * 0.05 }}
-      className="interactive-glow-card"
+      className={isFeatured ? 'glass-card-featured' : 'interactive-glow-card'}
       style={{
+        position: 'relative',
         padding: 32,
         cursor: 'default',
+        overflow: 'hidden',
       }}
     >
+      {/* Decorative index numeral */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 12,
+          right: 20,
+          fontFamily: 'var(--font-heading)',
+          fontSize: 52,
+          fontWeight: 700,
+          color: 'var(--white-05)',
+          lineHeight: 1,
+          letterSpacing: '-0.02em',
+          pointerEvents: 'none',
+        }}
+      >
+        {String(i + 1).padStart(2, '0')}
+      </div>
+
       <div style={{ position: 'relative', zIndex: 1 }}>
         <div
           style={{
             width: 52,
             height: 52,
             borderRadius: 14,
-            background: 'linear-gradient(135deg, rgba(13, 71, 161, 0.15) 0%, rgba(13, 71, 161, 0.05) 100%)',
+            background: isRed
+              ? 'linear-gradient(135deg, rgba(255,82,82,0.16) 0%, rgba(255,82,82,0.04) 100%)'
+              : 'linear-gradient(135deg, rgba(33,150,243,0.16) 0%, rgba(33,150,243,0.04) 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: 20,
-            border: '1px solid rgba(13, 71, 161, 0.2)',
+            border: isRed ? '1px solid rgba(255,82,82,0.22)' : '1px solid rgba(33,150,243,0.22)',
           }}
         >
-          <service.icon size={24} style={{ color: 'var(--blue-light)' }} />
+          <service.icon size={24} style={{ color: isRed ? 'var(--red-glow)' : 'var(--blue-light)' }} />
         </div>
+
+        {isFeatured && (
+          <div
+            style={{
+              display: 'inline-block',
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: 'var(--blue-light)',
+              marginBottom: 10,
+            }}
+          >
+            Most Requested
+          </div>
+        )}
 
         <h3
           style={{
@@ -68,11 +108,12 @@ function ServiceCard({ service, i, isInView }: { service: any; i: number; isInVi
             color: 'var(--white)',
             marginBottom: 8,
             fontFamily: 'var(--font-heading)',
+            letterSpacing: '-0.01em',
           }}
         >
           {service.title}
         </h3>
-        <p style={{ fontSize: 14, color: 'var(--white-50)', lineHeight: 1.7 }}>
+        <p style={{ fontSize: 14, color: 'var(--white-60)', lineHeight: 1.7 }}>
           {service.description}
         </p>
       </div>
@@ -87,8 +128,8 @@ export default function Services() {
   return (
     <section id="services" className="section" ref={sectionRef}>
       <div
-        className="floating-shape"
-        style={{ width: 400, height: 400, bottom: -100, left: -100, background: 'var(--red-primary)' }}
+        className="floating-shape floating-shape-red"
+        style={{ width: 500, height: 500, bottom: -150, left: -150 }}
       />
 
       <div className="container">

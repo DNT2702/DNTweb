@@ -47,8 +47,12 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="section" ref={sectionRef} style={{ background: 'var(--navy)' }}>
       <div
-        className="floating-shape"
-        style={{ width: 400, height: 400, bottom: -100, right: -100, background: 'var(--red-primary)' }}
+        className="floating-shape floating-shape-red"
+        style={{ width: 450, height: 450, bottom: -100, right: -150 }}
+      />
+      <div
+        className="floating-shape floating-shape-blue"
+        style={{ width: 400, height: 400, top: -100, left: -150 }}
       />
 
       <div className="container">
@@ -69,7 +73,7 @@ export default function Testimonials() {
             className="section-title"
           >
             What Our Clients{' '}
-            <span style={{ background: 'var(--gradient-blue)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <span style={{ background: 'var(--gradient-red)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Say
             </span>
           </motion.h2>
@@ -86,7 +90,7 @@ export default function Testimonials() {
           }}
         >
           <div
-            className="glass-card"
+            className="glass-card-featured"
             style={{
               padding: '48px 40px',
               textAlign: 'center',
@@ -97,7 +101,7 @@ export default function Testimonials() {
               justifyContent: 'center',
             }}
           >
-            <Quote size={36} style={{ color: 'var(--blue-primary)', opacity: 0.4, marginBottom: 24 }} />
+            <Quote size={36} style={{ color: 'var(--blue-light)', opacity: 0.5, marginBottom: 24 }} />
 
             <AnimatePresence mode="wait">
               <motion.div
@@ -120,6 +124,7 @@ export default function Testimonials() {
                   lineHeight: 1.8,
                   marginBottom: 28,
                   fontStyle: 'italic',
+                  letterSpacing: '-0.005em',
                 }}>
                   "{testimonials[current].text}"
                 </p>
@@ -130,7 +135,7 @@ export default function Testimonials() {
                       width: 44,
                       height: 44,
                       borderRadius: '50%',
-                      background: 'var(--gradient-blue)',
+                      background: current % 2 === 1 ? 'var(--gradient-red)' : 'var(--gradient-blue)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -146,7 +151,7 @@ export default function Testimonials() {
                     <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--white)' }}>
                       {testimonials[current].name}
                     </div>
-                    <div style={{ fontSize: 13, color: 'var(--white-50)' }}>
+                    <div style={{ fontSize: 13, color: 'var(--white-60)' }}>
                       {testimonials[current].role}
                     </div>
                   </div>
@@ -194,10 +199,10 @@ export default function Testimonials() {
                     width: current === i ? 24 : 8,
                     height: 8,
                     borderRadius: 4,
-                    background: current === i ? 'var(--blue-bright)' : 'var(--white-15)',
+                    background: current === i ? 'var(--gradient-signature)' : 'var(--white-15)',
                     border: 'none',
                     cursor: 'pointer',
-                    transition: 'all 0.3s ease',
+                    transition: 'all 0.4s var(--ease-out-expo)',
                   }}
                 />
               ))}

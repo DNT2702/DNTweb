@@ -48,8 +48,12 @@ export default function Process() {
   return (
     <section id="process" className="section" ref={sectionRef} style={{ background: 'var(--navy)' }}>
       <div
-        className="floating-shape"
-        style={{ width: 400, height: 400, top: '30%', left: -200, background: 'var(--blue-primary)' }}
+        className="floating-shape floating-shape-blue"
+        style={{ width: 450, height: 450, top: '5%', left: -180 }}
+      />
+      <div
+        className="floating-shape floating-shape-red"
+        style={{ width: 450, height: 450, bottom: '5%', right: -180 }}
       />
 
       <div className="container">
@@ -70,7 +74,7 @@ export default function Process() {
             className="section-title"
           >
             How We{' '}
-            <span style={{ background: 'var(--gradient-blue)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <span style={{ background: 'var(--gradient-signature)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Work
             </span>
           </motion.h2>
@@ -86,7 +90,7 @@ export default function Process() {
         </div>
 
         {/* Timeline */}
-        <div style={{ position: 'relative', maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ position: 'relative', maxWidth: 1040, margin: '0 auto' }}>
           {/* Vertical Line */}
           <div
             style={{
@@ -133,9 +137,24 @@ export default function Process() {
                       padding: 28,
                       display: 'inline-block',
                       textAlign: 'left',
-                      maxWidth: 360,
+                      maxWidth: 440,
+                      position: 'relative',
+                      overflow: 'hidden',
                     }}
                   >
+                    {/* Step color accent line */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: isLeft ? 'auto' : 0,
+                        right: isLeft ? 0 : 'auto',
+                        width: 3,
+                        height: '100%',
+                        background: step.color,
+                        opacity: 0.5,
+                      }}
+                    />
                     <div
                       style={{
                         width: 44,
@@ -151,23 +170,35 @@ export default function Process() {
                     >
                       <step.icon size={22} style={{ color: step.color }} />
                     </div>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: step.color, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: step.color, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 6 }}>
                       Step {String(i + 1).padStart(2, '0')}
                     </div>
                     <h3 style={{
-                      fontSize: 20, fontWeight: 600, color: 'var(--white)',
-                      fontFamily: 'var(--font-heading)', marginBottom: 8,
+                      fontSize: 21, fontWeight: 600, color: 'var(--white)',
+                      fontFamily: 'var(--font-heading)', marginBottom: 8, letterSpacing: '-0.01em',
                     }}>
                       {step.title}
                     </h3>
-                    <p style={{ fontSize: 14, color: 'var(--white-50)', lineHeight: 1.7 }}>
+                    <p style={{ fontSize: 14, color: 'var(--white-60)', lineHeight: 1.7 }}>
                       {step.description}
                     </p>
                   </div>
                 </div>
 
                 {/* Center Dot */}
-                <div style={{ order: 2, display: 'flex', justifyContent: 'center' }}>
+                <div style={{ order: 2, display: 'flex', justifyContent: 'center', position: 'relative' }}>
+                  <motion.div
+                    animate={{ scale: [1, 1.8, 1], opacity: [0.4, 0, 0.4] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.2 }}
+                    style={{
+                      position: 'absolute',
+                      width: 16,
+                      height: 16,
+                      borderRadius: '50%',
+                      background: step.color,
+                      zIndex: 1,
+                    }}
+                  />
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={isInView ? { scale: 1 } : {}}
